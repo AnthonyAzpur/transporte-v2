@@ -17,112 +17,73 @@ export interface NavigationItem {
   description?: string;
   path?: string;
 }
-
 export const NavigationItems: NavigationItem[] = [
   {
-    id: 'dashboard',
-    title: 'Dashboard',
+    id: 'empresas',
+    title: 'Empresas',
     type: 'group',
-    icon: 'icon-navigation',
+    icon: 'icon-navigation', // Puedes usar un icono adecuado
     children: [
       {
-        id: 'default',
-        title: 'Default',
+        id: 'empresa-list',
+        title: 'Empresas',
         type: 'item',
         classes: 'nav-item',
-        url: '/dashboard/default',
-        icon: 'dashboard',
-        breadcrumbs: false
-      }
+        url: '/dashboard', // Ruta para listar empresas
+        icon: 'profile', // Usando un icono de ejemplo
+      },
+      
     ]
   },
   {
-    id: 'authentication',
-    title: 'Authentication',
+    id: 'motos',
+    title: 'Motos',
     type: 'group',
-    icon: 'icon-navigation',
+    icon: 'icon-navigation', // Puedes usar un icono adecuado
     children: [
       {
-        id: 'login',
-        title: 'Login',
+        id: 'moto-list',
+        title: 'Motos',
         type: 'item',
         classes: 'nav-item',
-        url: '/login',
-        icon: 'login',
-        target: true,
-        breadcrumbs: false
+        url: '/motos', // Ruta para listar motos
+        icon: 'profile', // Usando un icono de ejemplo
       },
-      {
-        id: 'register',
-        title: 'Register',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/register',
-        icon: 'profile',
-        target: true,
-        breadcrumbs: false
-      }
+      
     ]
   },
   {
-    id: 'utilities',
-    title: 'UI Components',
+    id: 'zonas',
+    title: 'Zonas',
     type: 'group',
-    icon: 'icon-navigation',
+    icon: 'icon-navigation', // Puedes usar un icono adecuado
     children: [
       {
-        id: 'typography',
-        title: 'Typography',
+        id: 'zona-list',
+        title: 'Zonas',
         type: 'item',
         classes: 'nav-item',
-        url: '/typography',
-        icon: 'font-size'
+        url: '/zonas', // Ruta para listar zonas
+        icon: 'profile', // Usando un icono de ejemplo
       },
-      {
-        id: 'color',
-        title: 'Colors',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/color',
-        icon: 'bg-colors'
-      },
-      {
-        id: 'tabler',
-        title: 'Tabler',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://ant.design/components/icon',
-        icon: 'ant-design',
-        target: true,
-        external: true
-      }
+      
     ]
   },
-
   {
-    id: 'other',
-    title: 'Other',
+    id: 'usuarios',
+    title: 'Usuarios',
     type: 'group',
-    icon: 'icon-navigation',
+    icon: 'icon-users', // Puedes usar un icono adecuado
     children: [
       {
-        id: 'sample-page',
-        title: 'Sample Page',
+        id: 'usuario-list',
+        title: 'Usuarios',
         type: 'item',
-        url: '/sample-page',
         classes: 'nav-item',
-        icon: 'chrome'
+        url: '/sample-page', // Ruta para listar usuarios
+        icon: 'user', // Usando un icono de ejemplo
       },
-      {
-        id: 'document',
-        title: 'Document',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/mantis-angular/',
-        icon: 'question',
-        target: true,
-        external: true
-      }
+      
     ]
   }
 ];

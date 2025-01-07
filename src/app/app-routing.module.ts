@@ -13,24 +13,24 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/dashboard/default',
+        redirectTo: '/dashboard',
         pathMatch: 'full'
       },
       {
-        path: 'dashboard/default',
-        loadComponent: () => import('./demo/default/dashboard/dashboard.component').then((c) => c.DefaultComponent)
+        path: 'dashboard',
+        loadComponent: () => import('./demo/pages/empresa/empresa.component').then((c) => c.EmpresaComponent)
       },
       {
-        path: 'typography',
-        loadComponent: () => import('./demo/ui-component/typography/typography.component')
+        path: 'motos',
+        loadComponent: () => import('./demo/pages/motos/motos.component')
       },
       {
-        path: 'color',
-        loadComponent: () => import('./demo/ui-component/ui-color/ui-color.component')
+        path: 'zonas',
+        loadComponent: () => import('./demo/pages/zonas/zonas.component')
       },
       {
         path: 'sample-page',
-        loadComponent: () => import('./demo/other/sample-page/sample-page.component')
+        loadComponent: () => import('./demo/pages/sample-page/sample-page.component')
       }
     ]
   },

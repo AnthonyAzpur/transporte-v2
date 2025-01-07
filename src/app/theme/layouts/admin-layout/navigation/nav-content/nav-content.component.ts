@@ -1,5 +1,4 @@
-// Angular import
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, AfterViewInit } from '@angular/core';
 import { CommonModule, Location, LocationStrategy } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -7,32 +6,17 @@ import { RouterModule } from '@angular/router';
 import { NavigationItem, NavigationItems } from '../navigation';
 import { environment } from 'src/environments/environment';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
-import { NavCollapseComponent } from './nav-collapse/nav-collapse.component';
-import { NavGroupComponent } from './nav-group/nav-group.component';
-import { NavItemComponent } from './nav-item/nav-item.component';
 
-// icon
-import { IconService } from '@ant-design/icons-angular';
-import {
-  DashboardOutline,
-  CreditCardOutline,
-  LoginOutline,
-  QuestionOutline,
-  ChromeOutline,
-  FontSizeOutline,
-  ProfileOutline,
-  BgColorsOutline,
-  AntDesignOutline
-} from '@ant-design/icons-angular/icons';
+import { NavGroupComponent } from './nav-group/nav-group.component';
 
 @Component({
   selector: 'app-nav-content',
   standalone: true,
-  imports: [SharedModule, CommonModule, RouterModule, NavCollapseComponent, NavGroupComponent, NavItemComponent],
+  imports: [SharedModule, CommonModule, RouterModule, NavGroupComponent],
   templateUrl: './nav-content.component.html',
   styleUrls: ['./nav-content.component.scss']
 })
-export class NavContentComponent implements OnInit {
+export class NavContentComponent implements OnInit, AfterViewInit {
   // public props
   @Output() NavCollapsedMob: EventEmitter<string> = new EventEmitter();
 
@@ -48,29 +32,22 @@ export class NavContentComponent implements OnInit {
   // Constructor
   constructor(
     private location: Location,
-    private locationStrategy: LocationStrategy,
-    private iconService: IconService
+    private locationStrategy: LocationStrategy
   ) {
-    this.iconService.addIcon(
-      ...[
-        DashboardOutline,
-        CreditCardOutline,
-        FontSizeOutline,
-        LoginOutline,
-        ProfileOutline,
-        BgColorsOutline,
-        AntDesignOutline,
-        ChromeOutline,
-        QuestionOutline
-      ]
-    );
     this.navigations = NavigationItems;
   }
 
   // Life cycle events
   ngOnInit() {
+    // Puedes dejar ngOnInit vacío si no necesitas hacer nada en este ciclo
+  }
+
+  ngAfterViewInit() {
     if (this.windowWidth < 1025) {
-      (document.querySelector('.coded-navbar') as HTMLDivElement).classList.add('menupos-static');
+      const navbar = document.querySelector('.coded-navbar');
+      if (navbar) {
+        (navbar as HTMLDivElement).classList.add('menupos-static');
+      }
     }
   }
 
@@ -82,7 +59,7 @@ export class NavContentComponent implements OnInit {
     }
     const link = "a.nav-link[ href='" + current_url + "' ]";
     const ele = document.querySelector(link);
-    if (ele !== null && ele !== undefined) {
+    if (ele) {
       const parent = ele.parentElement;
       const up_parent = parent?.parentElement?.parentElement;
       const last_parent = up_parent?.parentElement;
@@ -100,7 +77,7 @@ export class NavContentComponent implements OnInit {
   }
 
   navMob() {
-    if (this.windowWidth < 1025 && document.querySelector('app-navigation.coded-navbar').classList.contains('mob-open')) {
+    if (this.windowWidth < 1025 && document.querySelector('app-navigation.coded-navbar')?.classList.contains('mob-open')) {
       this.NavCollapsedMob.emit();
     }
   }
