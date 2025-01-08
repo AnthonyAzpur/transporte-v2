@@ -16,7 +16,6 @@ import * as XLSX from 'xlsx'; // Asegúrate de importar XLSX
   styleUrls: ['./empresa.component.scss']
 })
 export class EmpresaComponent implements OnInit {
-  // Formulario para los filtros
   filtroForm: FormGroup;
 
   // Formulario para el modal (nueva empresa)
@@ -25,7 +24,15 @@ export class EmpresaComponent implements OnInit {
   // Formularios para teléfono y correo
   phoneForm: FormGroup;
   emailForm: FormGroup;
+ // Formulario reactivo para el modal
+ zonaForm: FormGroup;
 
+ // Zonas que se mostrarán en la tabla
+ zonas = [
+   { zona: 'Zona 01', estado: 'Activo' },
+   { zona: 'Zona 02', estado: 'Inactivo' },
+   { zona: 'Zona 03', estado: 'Activo' }
+ ];
 
   // Lista de empresas
   empresas = [
@@ -106,6 +113,31 @@ export class EmpresaComponent implements OnInit {
   // Variable para determinar el orden de las columnas
   orden: { campo: string, direccion: string } = { campo: '', direccion: 'asc' };
 
+  // Lista de resoluciones (para la tabla)
+  resoluciones = [
+    {
+      nru: '123',
+      resolucion: 'R01',
+      categoriaMotos: 'Categoria A',
+      zona: 'Lima',
+      estado: 'Activo',
+      fechaRegistro: new Date('2023-01-01'),
+      fechaCese: new Date('2023-12-31')
+    },
+    {
+      nru: '124',
+      resolucion: 'R02',
+      categoriaMotos: 'Categoria B',
+      zona: 'Arequipa',
+      estado: 'Inactivo',
+      fechaRegistro: new Date('2022-05-10'),
+      fechaCese: new Date('2023-05-10')
+    }
+  ];
+
+  resolucionForm: FormGroup;
+
+
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal // Usa NgbModal
@@ -124,9 +156,23 @@ export class EmpresaComponent implements OnInit {
       estado: ['ACTIVO', Validators.required]
     });
   }
-
-  ngOnInit(): void {}
-
+  ngOnInit(): void {
+    // Asegúrate de que filtroForm está siendo inicializado
+    this.filtroForm = this.fb.group({
+      razonSocial: [''],
+      ruc: [''],
+      estado: ['']
+    });
+  
+    // Asegúrate de que empresaForm también esté inicializado
+    this.empresaForm = this.fb.group({
+      razonSocial: ['', [Validators.required, Validators.maxLength(100)]],
+      ruc: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]],
+      representanteLegal: ['', [Validators.required, Validators.maxLength(100)]],
+      fechaRegistro: ['', Validators.required],
+      estado: ['ACTIVO', Validators.required]
+    });
+  }
   // Método para buscar empresas
   buscar(): void {
     const filtros = this.filtroForm.value;
@@ -139,9 +185,12 @@ export class EmpresaComponent implements OnInit {
     });
   }
 
-  // Método para abrir el modal
-  open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', backdrop: 'static' }).result.then(
+  open(modalRef: any) {
+    this.modalService.open(modalRef, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl', // Extra grande
+      backdrop: 'static'
+    }).result.then(
       (result) => {
         console.log(`Modal cerrado con: ${result}`);
       },
@@ -150,7 +199,21 @@ export class EmpresaComponent implements OnInit {
       }
     );
   }
-
+  
+  openlg(modalRef: any) {
+    this.modalService.open(modalRef, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg', // Extra grande
+      backdrop: 'static'
+    }).result.then(
+      (result) => {
+        console.log(`Modal cerrado con: ${result}`);
+      },
+      (reason) => {
+        console.log(`Modal cerrado por: ${reason}`);
+      }
+    );
+  }
   // Método para guardar los datos del formulario del modal
   guardar(): void {
     if (this.empresaForm.valid) {
@@ -185,4 +248,5 @@ export class EmpresaComponent implements OnInit {
       }
     });
   }
+  
 }
